@@ -3,10 +3,11 @@ import { useToDoList } from "../contexts/ToDoListContext";
 
 const ToDoListAdd = () => {
 
-    const {data, dispatch} = useToDoList()
+    const {dispatch} = useToDoList()
 
     const [addingTask, setAddTask] = useState(false);
     const textInput = useRef<HTMLInputElement>(null)
+    const idProvider = useRef<number>(0);
 
     function addNewTask() {
         if (textInput.current?.value.length == 0) {
@@ -14,7 +15,8 @@ const ToDoListAdd = () => {
           return;
         }
 
-        dispatch({type: 'add', todo: {id: data.length, content: textInput.current?.value as string, date: new Date()}})    
+        dispatch({type: 'add', todo: {id: idProvider.current, content: textInput.current?.value as string, date: new Date()}})    
+        idProvider.current = idProvider.current + 1
         setAddTask(false);
     }
 
